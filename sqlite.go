@@ -46,7 +46,7 @@ func (s *SQLite) CopyTo(dsn string) error {
 		return err
 	}
 	defer drvConn.Close()
-	err = copySQLite(drvConn, s.drvConn)
+	err = copySQLite(drvConn, s.DrvConn)
 	if err != nil {
 		return err
 	}
@@ -59,9 +59,14 @@ func (s *SQLite) CopyFrom(dsn string) error {
 		return err
 	}
 	defer drvConn.Close()
-	err = copySQLite(s.drvConn, drvConn)
+	err = copySQLite(s.DrvConn, drvConn)
 	if err != nil {
 		return err
 	}
 	return nil
+}
+
+func (s *SQLite) Close() {
+	s.DrvConn.Close()
+	s.Conn.Close()
 }
