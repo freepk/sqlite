@@ -3,7 +3,7 @@ package sqlite
 import (
 	"database/sql"
 
-	sqlite "github.com/mattn/go-sqlite3"
+	sqlite3 "github.com/mattn/go-sqlite3"
 )
 
 const (
@@ -11,7 +11,7 @@ const (
 )
 
 type SQLite struct {
-	DrvConn *sqlite.SQLiteConn
+	DrvConn *sqlite3.SQLiteConn
 	Conn    *sql.DB
 }
 
@@ -23,7 +23,7 @@ func NewSQLite(dsn string) (*SQLite, error) {
 	return &SQLite{DrvConn: drvConn, Conn: conn}, nil
 }
 
-func copySQLite(src, dst *sqlite.SQLiteConn) error {
+func copySQLite(src, dst *sqlite3.SQLiteConn) error {
 	backup, err := dst.Backup("main", src, "main")
 	if err != nil {
 		return err

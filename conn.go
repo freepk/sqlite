@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"sync"
 
-	sqlite "github.com/mattn/go-sqlite3"
+	sqlite3 "github.com/mattn/go-sqlite3"
 )
 
 const (
@@ -12,22 +12,23 @@ const (
 )
 
 var (
-	sqliteLock *sync.Mutex
-	sqliteConn *sqlite.SQLiteConn
+	sqliteLock = &sync.Mutex{}
+	sqliteConn *sqlite3.SQLiteConn
 )
 
 func init() {
-	sql.Register(sqliteDriverName, &sqlite.SQLiteDriver{
-		ConnectHook: func(conn *sqlite.SQLiteConn) error {
+	sql.Register(sqliteDriverName, &sqlite3.SQLiteDriver{
+		ConnectHook: func(conn *sqlite3.SQLiteConn) error {
 			sqliteConn = conn
 			return nil
 		},
 	})
 }
 
-func openSQLiteConn(dsn string) (*sql.DB, *sqlite.SQLiteConn, error) {
+func openSQLiteConn(dsn string) (*sql.DB, *sqlite3.SQLiteConn, error) {
 	sqliteLock.Lock()
 	defer sqliteLock.Unlock()
+
 	conn, err := sql.Open(sqliteDriverName, dsn)
 	if err != nil {
 		return nil, nil, err
