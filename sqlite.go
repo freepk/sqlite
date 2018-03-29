@@ -40,7 +40,7 @@ func copySQLite(src, dst *sqlite3.SQLiteConn) error {
 	return nil
 }
 
-func (s *SQLite) CopyTo(dsn string) error {
+func (s *SQLite) CopyFrom(dsn string) error {
 	_, drvConn, err := openSQLiteConn(dsn)
 	if err != nil {
 		return err
@@ -53,7 +53,7 @@ func (s *SQLite) CopyTo(dsn string) error {
 	return nil
 }
 
-func (s *SQLite) CopyFrom(dsn string) error {
+func (s *SQLite) CopyTo(dsn string) error {
 	_, drvConn, err := openSQLiteConn(dsn)
 	if err != nil {
 		return err
